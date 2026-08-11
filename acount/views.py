@@ -13,14 +13,19 @@ def sign_up(request):
         
         error = False
         messages = []
-        if not validate_email(email):
+        try:
+            validate_email(email)
+        except:
             # Handle invalid email
             messages.append("Invalid email address.")
             error = True
-        if password != confirm_password:
-            # Handle password mismatch
-            messages.append("Passwords do not match.")
-            error = True
+            return render(request, 'acount/sign_up.html', {'messages': messages})
+        if not error:
+            if password != confirm_password:
+                # Handle password mismatch
+                messages.append("Passwords do not match.")
+                error = True
+            return render(request, 'acount/sign_up.html', {'messages': messages})
             
         print(f"Username: {username}, Email: {email}, Password: {password}, Confirm Password: {confirm_password}")
         
@@ -29,8 +34,7 @@ def sign_up(request):
         # Redirect to a success page or login page after successful registration
         return render(request, 'acount/sign_in.html', {'success': True})
     else:
-        return render(request, 'acount/sign_up.html', {'messages': messages})
-
+        return render(request, 'acount/sign_up.html')
 
 def sign_in(request):
         return render(request, 'acount/sign_in.html')
