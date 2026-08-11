@@ -1,0 +1,439 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Mon Application</title>
+    {% tailwind_css %}
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-950 text-gray-800 dark:text-gray-100">
+
+<div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <aside
+        id="sidebar"
+        class="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+
+        <!-- Logo -->
+        <div class="h-16 flex items-center px-6 border-b border-gray-200 dark:border-gray-800">
+            <a href="#" class="text-2xl font-bold text-indigo-600">
+                My<span class="text-gray-800 dark:text-white">Dashboard</span>
+            </a>
+        </div>
+
+        <!-- Menu -->
+        <nav class="p-4 space-y-2">
+
+            <a href="#"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-600 text-white">
+                <span>🏠</span>
+                <span>Accueil</span>
+            </a>
+
+            <a href="#"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                <span>📊</span>
+                <span>Statistiques</span>
+            </a>
+
+            <a href="#"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                <span>👥</span>
+                <span>Utilisateurs</span>
+            </a>
+
+            <a href="#"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                <span>📁</span>
+                <span>Projets</span>
+            </a>
+
+            <a href="#"
+               class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800 transition">
+                <span>⚙️</span>
+                <span>Paramètres</span>
+            </a>
+
+        </nav>
+
+        <!-- Déconnexion -->
+        <div class="absolute bottom-0 w-full p-4 border-t border-gray-200 dark:border-gray-800">
+
+            <form method="post" action="{% url 'sign_out' %}">
+                {% csrf_token %}
+
+                <button
+                    type="submit"
+                    class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-500 hover:bg-red-50 dark:hover:bg-red-950 transition">
+
+                    <span>🚪</span>
+                    <span>Déconnexion</span>
+
+                </button>
+            </form>
+
+        </div>
+
+    </aside>
+
+
+    <!-- CONTENU PRINCIPAL -->
+    <div class="flex-1 lg:ml-64">
+
+        <!-- NAVBAR -->
+        <header class="h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center justify-between px-4 md:px-8">
+
+            <!-- Bouton mobile -->
+            <button
+                onclick="toggleSidebar()"
+                class="lg:hidden text-2xl">
+                ☰
+            </button>
+
+            <div class="hidden md:block">
+                <h1 class="text-xl font-semibold">
+                    Dashboard
+                </h1>
+            </div>
+
+            <!-- Partie droite -->
+            <div class="flex items-center gap-4">
+
+                <!-- Notification -->
+                <button class="relative text-xl">
+                    🔔
+                    <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+                </button>
+
+                <!-- Profil -->
+                <a href="#"
+                   class="flex items-center gap-3">
+
+                    <div class="w-9 h-9 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold">
+                        {{ request.user.username|first|upper }}
+                    </div>
+
+                    <div class="hidden md:block">
+                        <p class="text-sm font-semibold">
+                            {{ request.user.username }}
+                        </p>
+
+                        <p class="text-xs text-gray-500">
+                            Administrateur
+                        </p>
+                    </div>
+
+                </a>
+
+            </div>
+
+        </header>
+
+
+        <!-- MAIN -->
+        <main class="p-4 md:p-8 animate-fade-in">
+
+            <!-- Bienvenue -->
+            <div class="mb-8">
+
+                <h2 class="text-2xl md:text-3xl font-bold">
+                    Bonjour {{ request.user.username }} 👋
+                </h2>
+
+                <p class="text-gray-500 dark:text-gray-400 mt-2">
+                    Voici un aperçu de votre activité aujourd'hui.
+                </p>
+
+            </div>
+
+
+            <!-- STATISTIQUES -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
+
+                <!-- Card 1 -->
+                <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
+
+                    <div class="flex justify-between items-start">
+
+                        <div>
+                            <p class="text-sm text-gray-500">
+                                Utilisateurs
+                            </p>
+
+                            <h3 class="text-3xl font-bold mt-2">
+                                1,248
+                            </h3>
+                        </div>
+
+                        <div class="w-12 h-12 bg-indigo-100 dark:bg-indigo-950 rounded-xl flex items-center justify-center text-xl">
+                            👥
+                        </div>
+
+                    </div>
+
+                    <p class="text-sm text-green-500 mt-4">
+                        ↑ 12.5% ce mois
+                    </p>
+
+                </div>
+
+
+                <!-- Card 2 -->
+                <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
+
+                    <div class="flex justify-between items-start">
+
+                        <div>
+                            <p class="text-sm text-gray-500">
+                                Projets
+                            </p>
+
+                            <h3 class="text-3xl font-bold mt-2">
+                                86
+                            </h3>
+                        </div>
+
+                        <div class="w-12 h-12 bg-blue-100 dark:bg-blue-950 rounded-xl flex items-center justify-center text-xl">
+                            📁
+                        </div>
+
+                    </div>
+
+                    <p class="text-sm text-green-500 mt-4">
+                        ↑ 8.2% ce mois
+                    </p>
+
+                </div>
+
+
+                <!-- Card 3 -->
+                <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
+
+                    <div class="flex justify-between items-start">
+
+                        <div>
+                            <p class="text-sm text-gray-500">
+                                Revenus
+                            </p>
+
+                            <h3 class="text-3xl font-bold mt-2">
+                                2.4M
+                            </h3>
+                        </div>
+
+                        <div class="w-12 h-12 bg-green-100 dark:bg-green-950 rounded-xl flex items-center justify-center text-xl">
+                            💰
+                        </div>
+
+                    </div>
+
+                    <p class="text-sm text-green-500 mt-4">
+                        ↑ 15.8% ce mois
+                    </p>
+
+                </div>
+
+
+                <!-- Card 4 -->
+                <div class="bg-white dark:bg-gray-900 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-800">
+
+                    <div class="flex justify-between items-start">
+
+                        <div>
+                            <p class="text-sm text-gray-500">
+                                Commandes
+                            </p>
+
+                            <h3 class="text-3xl font-bold mt-2">
+                                324
+                            </h3>
+                        </div>
+
+                        <div class="w-12 h-12 bg-orange-100 dark:bg-orange-950 rounded-xl flex items-center justify-center text-xl">
+                            🛒
+                        </div>
+
+                    </div>
+
+                    <p class="text-sm text-red-500 mt-4">
+                        ↓ 3.4% ce mois
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTENU -->
+            <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+
+                <!-- Activités -->
+                <div class="xl:col-span-2 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800">
+
+                    <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-800">
+
+                        <div>
+                            <h3 class="text-lg font-semibold">
+                                Activités récentes
+                            </h3>
+
+                            <p class="text-sm text-gray-500">
+                                Dernières activités de la plateforme
+                            </p>
+                        </div>
+
+                        <button class="text-sm text-indigo-600 hover:underline">
+                            Voir tout
+                        </button>
+
+                    </div>
+
+
+                    <div class="overflow-x-auto">
+
+                        <table class="w-full text-left">
+
+                            <thead class="bg-gray-50 dark:bg-gray-800">
+
+                                <tr>
+                                    <th class="px-6 py-4 text-sm font-medium">
+                                        Utilisateur
+                                    </th>
+
+                                    <th class="px-6 py-4 text-sm font-medium">
+                                        Action
+                                    </th>
+
+                                    <th class="px-6 py-4 text-sm font-medium">
+                                        Date
+                                    </th>
+
+                                    <th class="px-6 py-4 text-sm font-medium">
+                                        Statut
+                                    </th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                <tr class="border-t border-gray-200 dark:border-gray-800">
+
+                                    <td class="px-6 py-4">
+                                        Jean Dupont
+                                    </td>
+
+                                    <td class="px-6 py-4 text-gray-500">
+                                        Nouveau projet
+                                    </td>
+
+                                    <td class="px-6 py-4 text-gray-500">
+                                        Aujourd'hui
+                                    </td>
+
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-600">
+                                            Terminé
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+
+                                <tr class="border-t border-gray-200 dark:border-gray-800">
+
+                                    <td class="px-6 py-4">
+                                        Alice Martin
+                                    </td>
+
+                                    <td class="px-6 py-4 text-gray-500">
+                                        Mise à jour profil
+                                    </td>
+
+                                    <td class="px-6 py-4 text-gray-500">
+                                        Hier
+                                    </td>
+
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-600">
+                                            Actif
+                                        </span>
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Profil -->
+                <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6">
+
+                    <h3 class="text-lg font-semibold mb-6">
+                        Mon profil
+                    </h3>
+
+                    <div class="flex flex-col items-center">
+
+                        <div class="w-24 h-24 rounded-full bg-indigo-600 text-white flex items-center justify-center text-3xl font-bold mb-4">
+                            {{ request.user.username|first|upper }}
+                        </div>
+
+                        <h4 class="text-xl font-semibold">
+                            {{ request.user.username }}
+                        </h4>
+
+                        <p class="text-gray-500 text-sm">
+                            {{ request.user.email }}
+                        </p>
+
+                        <a href="#"
+                           class="mt-6 w-full text-center py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white transition">
+                            Modifier mon profil
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<!-- OVERLAY MOBILE -->
+<div
+    id="overlay"
+    onclick="toggleSidebar()"
+    class="hidden fixed inset-0 bg-black/50 z-40 lg:hidden">
+</div>
+
+
+<script>
+
+function toggleSidebar() {
+
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
+
+    sidebar.classList.toggle("-translate-x-full");
+    overlay.classList.toggle("hidden");
+
+}
+
+</script>
+
+</body>
+</html>
