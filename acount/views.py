@@ -1,3 +1,5 @@
+# from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.shortcuts import render
 
@@ -15,24 +17,21 @@ def sign_up(request):
         messages = []
         try:
             validate_email(email)
-        except:
+        except ValidationError:
             # Handle invalid email
             messages.append("Invalid email address.")
             error = True
             return render(request, 'acount/sign_up.html', {'messages': messages})
-        if not error:
-            if password != confirm_password:
+        if not error and password != confirm_password:
                 # Handle password mismatch
-                messages.append("Passwords do not match.")
-                error = True
+            messages.append("Passwords do not match.")
+            error = True
             return render(request, 'acount/sign_up.html', {'messages': messages})
             
-        print(f"Username: {username}, Email: {email}, Password: {password}, Confirm Password: {confirm_password}")
-        
-        # Perform validation and save the user to the database
-        
-        # Redirect to a success page or login page after successful registration
-        return render(request, 'acount/sign_in.html', {'success': True})
+        if not error:
+            print(f"Username: {username}, Email: {email}, Password: {password}, Confirm Password: {confirm_password}")
+            messages.append("Account created successfully.")
+            return render(request, 'acount/sign_in.html', {'success': True})
     else:
         return render(request, 'acount/sign_up.html')
 
