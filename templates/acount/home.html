@@ -1,0 +1,322 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Accueil | Mon Application</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen">
+
+    <!-- NAVBAR -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-slate-900/80 backdrop-blur-lg border-b border-slate-800">
+
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+
+            <!-- Logo -->
+            <a href="#" class="text-2xl font-bold text-primary">
+                SAHIT
+            </a>
+
+            <!-- Menu desktop -->
+            <nav class="hidden md:flex items-center gap-8">
+
+                <a href="#hero" class="text-slate-300 hover:text-white transition">
+                    Accueil
+                </a>
+
+                <a href="#features" class="text-slate-300 hover:text-white transition">
+                    Fonctionnalités
+                </a>
+
+                <a href="#about" class="text-slate-300 hover:text-white transition">
+                    À propos
+                </a>
+
+                <a href="#contact" class="text-slate-300 hover:text-white transition">
+                    Contact
+                </a>
+
+            </nav>
+
+            <!-- Boutons auth -->
+            <div class="hidden md:flex items-center gap-3">
+
+                {% if user.is_authenticated %}
+
+                    <a href="{% url 'dashboard' %}"
+                       class="px-4 py-2 rounded-xl bg-primary hover:bg-blue-700 transition font-medium">
+                        Dashboard
+                    </a>
+
+                {% else %}
+
+                    <a href="{% url 'login' %}"
+                       class="px-4 py-2 rounded-xl border border-slate-700 hover:bg-slate-800 transition">
+                        Connexion
+                    </a>
+
+                    <a href="{% url 'signup' %}"
+                       class="px-4 py-2 rounded-xl bg-primary hover:bg-blue-700 transition font-medium">
+                        Inscription
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="pt-32 pb-20 px-6">
+
+        <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+
+            <!-- Texte -->
+            <div>
+
+                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-300 text-sm mb-6">
+                    🚀 Nouvelle plateforme disponible
+                </span>
+
+                <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6">
+                    Construisez des
+                    <span class="text-primary">applications modernes</span>
+                    avec Django
+                </h1>
+
+                <p class="text-xl text-slate-400 leading-relaxed mb-8">
+                    Une base professionnelle pour démarrer rapidement vos projets web,
+                    tableaux de bord, portfolios et applications SaaS avec Django et Tailwind CSS.
+                </p>
+
+                <div class="flex flex-wrap gap-4">
+
+                    <a href="{% url 'signup' %}"
+                       class="px-6 py-3 rounded-xl bg-primary hover:bg-blue-700 transition font-semibold shadow-lg shadow-blue-500/25">
+                        Commencer maintenant
+                    </a>
+
+                    <a href="#features"
+                       class="px-6 py-3 rounded-xl border border-slate-700 hover:bg-slate-800 transition font-medium">
+                        Découvrir
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- Illustration / Carte -->
+            <div class="relative">
+
+                <div class="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full"></div>
+
+                <div class="relative bg-slate-900/80 border border-slate-800 rounded-3xl p-8 shadow-2xl backdrop-blur-lg">
+
+                    <div class="flex items-center gap-2 mb-6">
+                        <span class="w-3 h-3 bg-red-500 rounded-full"></span>
+                        <span class="w-3 h-3 bg-yellow-500 rounded-full"></span>
+                        <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                    </div>
+
+                    <div class="space-y-4">
+
+                        <div class="h-4 bg-slate-800 rounded w-3/4"></div>
+                        <div class="h-4 bg-slate-800 rounded w-full"></div>
+                        <div class="h-4 bg-slate-800 rounded w-5/6"></div>
+
+                        <div class="grid grid-cols-2 gap-4 pt-4">
+
+                            <div class="bg-slate-800 rounded-2xl p-4">
+                                <p class="text-slate-400 text-sm">Utilisateurs</p>
+                                <p class="text-2xl font-bold mt-2">1,248</p>
+                            </div>
+
+                            <div class="bg-slate-800 rounded-2xl p-4">
+                                <p class="text-slate-400 text-sm">Projets</p>
+                                <p class="text-2xl font-bold mt-2">86</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FEATURES -->
+    <section id="features" class="py-20 px-6 bg-slate-900/50">
+
+        <div class="max-w-7xl mx-auto">
+
+            <div class="text-center mb-16">
+
+                <h2 class="text-4xl font-bold mb-4">
+                    Fonctionnalités principales
+                </h2>
+
+                <p class="text-slate-400 text-lg max-w-2xl mx-auto">
+                    Tout ce dont vous avez besoin pour créer une application web moderne et performante.
+                </p>
+
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+                <!-- Card 1 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-blue-500/40 transition duration-300">
+
+                    <div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-2xl mb-6">
+                        ⚡
+                    </div>
+
+                    <h3 class="text-xl font-semibold mb-3">
+                        Rapide
+                    </h3>
+
+                    <p class="text-slate-400 leading-relaxed">
+                        Interface optimisée avec Tailwind CSS pour des performances élevées et une expérience utilisateur fluide.
+                    </p>
+
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-blue-500/40 transition duration-300">
+
+                    <div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-2xl mb-6">
+                        🔒
+                    </div>
+
+                    <h3 class="text-xl font-semibold mb-3">
+                        Sécurisé
+                    </h3>
+
+                    <p class="text-slate-400 leading-relaxed">
+                        Profitez du système d'authentification Django avec protection CSRF, gestion des sessions et bonnes pratiques intégrées.
+                    </p>
+
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 hover:border-blue-500/40 transition duration-300">
+
+                    <div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-2xl mb-6">
+                        📱
+                    </div>
+
+                    <h3 class="text-xl font-semibold mb-3">
+                        Responsive
+                    </h3>
+
+                    <p class="text-slate-400 leading-relaxed">
+                        Un design entièrement adaptatif qui fonctionne parfaitement sur mobile, tablette et ordinateur.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ABOUT -->
+    <section id="about" class="py-20 px-6">
+
+        <div class="max-w-4xl mx-auto text-center">
+
+            <h2 class="text-4xl font-bold mb-6">
+                À propos du projet
+            </h2>
+
+            <p class="text-slate-400 text-lg leading-relaxed">
+                Cette template est conçue pour servir de base à vos projets Django :
+                portfolio développeur, tableau de bord administratif, application SaaS,
+                plateforme de gestion ou tout autre projet web professionnel.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- CTA -->
+    <section class="py-20 px-6">
+
+        <div class="max-w-5xl mx-auto bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-10 md:p-16 text-center">
+
+            <h2 class="text-4xl font-bold mb-4">
+                Prêt à démarrer votre projet ?
+            </h2>
+
+            <p class="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
+                Créez votre compte et commencez à développer des applications web modernes avec Django dès aujourd'hui.
+            </p>
+
+            <a href="{% url 'signup' %}"
+               class="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white text-slate-900 hover:bg-slate-100 transition font-semibold text-lg shadow-xl">
+                🚀 Créer un compte
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer id="contact" class="border-t border-slate-800 py-8 px-6">
+
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+
+            <p class="text-slate-400 text-sm">
+                © 2026 SAHIT — Tous droits réservés.
+            </p>
+
+            <div class="flex items-center gap-6 text-sm">
+
+                <a href="#" class="text-slate-400 hover:text-white transition">
+                    GitHub
+                </a>
+
+                <a href="#" class="text-slate-400 hover:text-white transition">
+                    LinkedIn
+                </a>
+
+                <a href="#" class="text-slate-400 hover:text-white transition">
+                    Contact
+                </a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+</body>
+</html>
