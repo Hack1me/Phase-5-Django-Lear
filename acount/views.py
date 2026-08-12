@@ -120,8 +120,11 @@ def password_reset_request(request):
         # For this example, we'll just display a success message.
         messages.append("Un email de réinitialisation du mot de passe a été envoyé à votre adresse email.")
         return render(request, 'acount/password_reset_form.html', {'messages': messages})
+    else:
+        return render(request, 'acount/password_reset_form.html')
 
-    return render(request, 'acount/password_reset_form.html')
+def password_reset_done(request):
+    return render(request, 'acount/password_reset_done.html')
 
 @login_required(login_url='sign_in')
 def dashboard(request):

@@ -9,4 +9,5 @@ urlpatterns = [
     path('sign_out/', sign_out, name='sign_out'),
     path('', home, name='home'),
     path('password_reset/', password_reset_request, name='password_reset'),
+    path('password_reset/done/', password_reset_done, name='password_reset_done'),
 ]

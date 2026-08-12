@@ -10,7 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+
+from django.template.backends import django
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -130,4 +133,14 @@ MAILERS = {
     'default': {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
+    'smtp': {
+        # settings.py
+        'EMAIL_BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
+        'EMAIL_HOST': 'smtp.gmail.com',  # Remplacez par votre serveur SMTP
+        'EMAIL_PORT': 587,
+        'EMAIL_USE_TLS': True,
+        'EMAIL_HOST_USER': os.environ.get('EMAIL_USER'),
+        'EMAIL_HOST_PASSWORD': os.environ.get('EMAIL_PASS'),  # Utilisez un mot de passe d'application
+        'DEFAULT_FROM_EMAIL': os.environ.get('EMAIL_FROM'),# Adresse par défaut pour l'expéditeur
+}
 }
