@@ -86,9 +86,42 @@ def sign_in(request):
 
     return render(request, 'acount/sign_in.html')
 
+#sign out view
 def sign_out(request):
     logout(request)
     return redirect('sign_in')
+
+#landing page view
+def home(request):
+    return render(request, 'acount/home.html')
+
+#password reset request view
+def password_reset_request(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        messages = []
+
+        if not email:
+            messages.append("Veuillez saisir votre adresse email.")
+            return render(request, 'acount/password_reset_form.html', {'messages': messages})
+
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.append("Adresse email invalide.")
+            return render(request, 'acount/password_reset_form.html', {'messages': messages})
+
+        user = User.objects.filter(email__iexact=email).first()
+        if not user:
+            messages.append("Aucun compte trouvé avec cet email.")
+            return render(request, 'acount/password_reset_form.html', {'messages': messages})
+
+        # Here you would typically send a password reset email to the user.
+        # For this example, we'll just display a success message.
+        messages.append("Un email de réinitialisation du mot de passe a été envoyé à votre adresse email.")
+        return render(request, 'acount/password_reset_form.html', {'messages': messages})
+
+    return render(request, 'acount/password_reset_form.html')
 
 @login_required(login_url='sign_in')
 def dashboard(request):

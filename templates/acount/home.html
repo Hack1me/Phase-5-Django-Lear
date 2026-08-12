@@ -55,12 +55,12 @@
 
                 {% else %}
 
-                    <a href="{% url 'login' %}"
+                    <a href="{% url 'sign_in' %}"
                        class="px-4 py-2 rounded-xl border border-slate-700 hover:bg-slate-800 transition">
                         Connexion
                     </a>
 
-                    <a href="{% url 'signup' %}"
+                    <a href="{% url 'sign_up' %}"
                        class="px-4 py-2 rounded-xl bg-primary hover:bg-blue-700 transition font-medium">
                         Inscription
                     </a>
@@ -99,7 +99,7 @@
 
                 <div class="flex flex-wrap gap-4">
 
-                    <a href="{% url 'signup' %}"
+                    <a href="{% url 'sign_up' %}"
                        class="px-6 py-3 rounded-xl bg-primary hover:bg-blue-700 transition font-semibold shadow-lg shadow-blue-500/25">
                         Commencer maintenant
                     </a>
@@ -257,7 +257,7 @@
     <!-- CTA -->
     <section class="py-20 px-6">
 
-        <div class="max-w-5xl mx-auto bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl p-10 md:p-16 text-center">
+        <div class="max-w-5xl mx-auto bg-linear-to-r from-blue-600 to-indigo-600 rounded-3xl p-10 md:p-16 text-center">
 
             <h2 class="text-4xl font-bold mb-4">
                 Prêt à démarrer votre projet ?
@@ -267,7 +267,7 @@
                 Créez votre compte et commencez à développer des applications web modernes avec Django dès aujourd'hui.
             </p>
 
-            <a href="{% url 'signup' %}"
+            <a href="{% url 'sign_up' %}"
                class="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-white text-slate-900 hover:bg-slate-100 transition font-semibold text-lg shadow-xl">
                 🚀 Créer un compte
             </a>
