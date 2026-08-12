@@ -1,3 +1,5 @@
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
@@ -52,8 +54,42 @@ def sign_up(request):
     else:
         return render(request, 'acount/sign_up.html')
 
+#sign in view
 def sign_in(request):
-        return render(request, 'acount/sign_in.html')
-    
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        messages = []
+
+        if not email or not password:
+            messages.append("Veuillez saisir votre email et votre mot de passe.")
+            return render(request, 'acount/sign_in.html', {'messages': messages})
+
+        try:
+            validate_email(email)
+        except ValidationError:
+            messages.append("Adresse email invalide.")
+            return render(request, 'acount/sign_in.html', {'messages': messages})
+
+        user = User.objects.filter(email__iexact=email).first()
+        if not user:
+            messages.append("Aucun compte trouvé avec cet email.")
+            return render(request, 'acount/sign_in.html', {'messages': messages})
+
+        authuser = authenticate(request, username=user.username, password=password)
+        if authuser is not None:
+            login(request, authuser)
+            return redirect('dashboard')
+
+        messages.append("Mot de passe incorrect.")
+        return render(request, 'acount/sign_in.html', {'messages': messages})
+
+    return render(request, 'acount/sign_in.html')
+
+def sign_out(request):
+    logout(request)
+    return redirect('sign_in')
+
+@login_required(login_url='sign_in')
 def dashboard(request):
     return render(request, 'acount/dashboard.html')
