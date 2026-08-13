@@ -125,6 +125,8 @@ def password_reset_request(request):
 
 def password_reset_done(request):
     return render(request, 'acount/password_reset_done.html')
+def password_reset_complete(request):
+    return render(request, 'acount/password_reset_complete.html')
 
 @login_required(login_url='sign_in')
 def dashboard(request):

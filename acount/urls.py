@@ -10,4 +10,5 @@ urlpatterns = [
     path('', home, name='home'),
     path('password_reset/', password_reset_request, name='password_reset'),
     path('password_reset/done/', password_reset_done, name='password_reset_done'),
+    path('password_reset/complete/', password_reset_complete, name='password_reset_complete'),
 ]
