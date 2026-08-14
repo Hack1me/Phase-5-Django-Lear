@@ -44,9 +44,7 @@
                             <table width="100%" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td align="center" style="padding:10px 0 30px;">
-
-                                        {% comment %} {{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %} {% endcomment %}
-                                        <a href="#"
+                                        <a href=" {{ protocol }}{{ domain }}{% url 'password_reset_confirm' token=token uid=uid %}"
                                            style="background:#2563eb;color:#ffffff;text-decoration:none;padding:14px 28px;border-radius:12px;font-size:16px;font-weight:bold;display:inline-block;">
                                             Réinitialiser le mot de passe
                                         </a>
@@ -61,7 +59,7 @@
 
                             <p style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:16px;word-break:break-all;font-size:13px;color:#60a5fa;line-height:1.5;margin:0 0 24px;">
                                je n'existe pas encore
-                                {% comment %} {{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %} {% endcomment %}
+                                {{ protocol }}://{{ domain }}{% url 'password_reset_confirm' token=token uid=uid %}
                             </p>
 
                             <p style="color:#94a3b8;font-size:14px;line-height:1.7;margin:0 0 24px;">

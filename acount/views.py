@@ -8,6 +8,9 @@ from django.core.validators import validate_email
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 from LENOXDEV import settings
 
@@ -118,7 +121,18 @@ def password_reset(request):
             return render(request, 'acount/password_reset_form.html', {'messages': messages})
 
         # Here you would typically send a password reset email to the user.
-        html_text = render_to_string('acount/email_template.html', {})
+        token = default_token_generator.make_token(user)
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        current_site = request.META['HTTP_HOST']
+        protocol = 'https://' if request.is_secure() else 'http://'
+        context = {
+            'user': user,
+            'token': token,
+            'uid': uid,
+            'protocol': protocol,
+            'domain': current_site
+        }
+        html_text = render_to_string('acount/email_template.html', context)
         msg = EmailMessage(
             "Réinitialisation du mot de passe",
             html_text,
@@ -138,12 +152,12 @@ def password_reset(request):
 def password_reset_done(request):
     return render(request, 'acount/password_reset_done.html')
 
-def password_reset_confirm(request):
+def password_reset_confirm(request, token, uid):
     if request.method == "POST":
         password = request.POST.get("new_password1")
         confirm_password = request.POST.get("new_password2")
         messages = []
-
+        print(f"Received token: {token}, uid: {uid}")  # Debugging line
         if password != confirm_password:
             messages.append("Les mots de passe ne correspondent pas.")
             return render(request, 'acount/password_reset_confirm.html', {'messages': messages})
