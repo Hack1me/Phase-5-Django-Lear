@@ -1,10 +1,15 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
+from django.core.mail import EmailMessage
 from django.core.validators import validate_email
 from django.db.models import Q
 from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
+
+from LENOXDEV import settings
 
 
 # sign up view
@@ -96,14 +101,10 @@ def home(request):
     return render(request, 'acount/home.html')
 
 #password reset request view
-def password_reset_request(request):
+def password_reset(request):
     if request.method == "POST":
         email = request.POST.get("email")
         messages = []
-
-        if not email:
-            messages.append("Veuillez saisir votre adresse email.")
-            return render(request, 'acount/password_reset_form.html', {'messages': messages})
 
         try:
             validate_email(email)
@@ -117,6 +118,17 @@ def password_reset_request(request):
             return render(request, 'acount/password_reset_form.html', {'messages': messages})
 
         # Here you would typically send a password reset email to the user.
+        html_text = render_to_string('acount/email_template.html', {})
+        msg = EmailMessage(
+            "Réinitialisation du mot de passe",
+            html_text,
+            settings.DEFAULT_FROM_EMAIL,
+            [email],
+        )
+
+        msg.content_subtype = "html"
+        msg.send(fail_silently=False)
+
         # For this example, we'll just display a success message.
         messages.append("Un email de réinitialisation du mot de passe a été envoyé à votre adresse email.")
         return render(request, 'acount/password_reset_form.html', {'messages': messages})
@@ -125,10 +137,35 @@ def password_reset_request(request):
 
 def password_reset_done(request):
     return render(request, 'acount/password_reset_done.html')
+
 def password_reset_confirm(request):
-    return render(request, 'acount/password_reset_confirm.html')
+    if request.method == "POST":
+        password = request.POST.get("new_password1")
+        confirm_password = request.POST.get("new_password2")
+        messages = []
+
+        if password != confirm_password:
+            messages.append("Les mots de passe ne correspondent pas.")
+            return render(request, 'acount/password_reset_confirm.html', {'messages': messages})
+
+        try:
+            validate_password(password)
+        except ValidationError as e:
+            messages.extend(e.messages)
+            return render(request, 'acount/password_reset_confirm.html', {'messages': messages})
+
+        # Here you would typically update the user's password in the database.
+        print("Password has been reset successfully.")  # Placeholder for actual password reset logic
+        # For this example, we'll just display a success message.
+        return redirect('password_reset_complete')
+    else:
+        return render(request, 'acount/password_reset_confirm.html')
+
 def password_reset_complete(request):
     return render(request, 'acount/password_reset_complete.html')
+
+def password_reset_email(request):
+    return render(request, 'acount/password_reset_email.html')
 
 @login_required(login_url='sign_in')
 def dashboard(request):

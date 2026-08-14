@@ -14,9 +14,11 @@ import os
 from pathlib import Path
 
 from django.template.backends import django
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -129,18 +131,10 @@ INTERNAL_IPS = [
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-    'smtp': {
-        # settings.py
-        'EMAIL_BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
-        'EMAIL_HOST': 'smtp.gmail.com',  # Remplacez par votre serveur SMTP
-        'EMAIL_PORT': 587,
-        'EMAIL_USE_TLS': True,
-        'EMAIL_HOST_USER': os.environ.get('EMAIL_USER'),
-        'EMAIL_HOST_PASSWORD': os.environ.get('EMAIL_PASS'),  # Utilisez un mot de passe d'application
-        'DEFAULT_FROM_EMAIL': 'sahitndaheu@gmail.com',# Adresse par défaut pour l'expéditeur
-}
-}
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASS')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER or 'noreply@localhost')

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réinitialisation du mot de passe</title>
+</head>
+<body style="margin:0;padding:0;background-color:#0f172a;font-family:Arial,sans-serif;">
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0f172a;padding:40px 20px;">
+        <tr>
+            <td align="center">
+
+                <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;background:#111827;border-radius:20px;overflow:hidden;border:1px solid #1e293b;">
+
+                    <!-- Header -->
+                    <tr>
+                        <td align="center" style="padding:40px 30px 20px;">
+
+                            <h1 style="margin:0;color:#2563eb;font-size:32px;font-weight:bold;">
+                                LENOX DEV
+                            </h1>
+
+                            <p style="margin:12px 0 0;color:#cbd5e1;font-size:16px;">
+                                Réinitialisation de votre mot de passe
+                            </p>
+
+                        </td>
+                    </tr>
+
+                    <!-- Content -->
+                    <tr>
+                        <td style="padding:20px 30px 40px;">
+
+                            <p style="color:#e2e8f0;font-size:16px;line-height:1.7;margin:0 0 20px;">
+                                Bonjour <strong>{{ user.get_username }}</strong>,
+                            </p>
+
+                            <p style="color:#cbd5e1;font-size:16px;line-height:1.7;margin:0 0 30px;">
+                                Nous avons reçu une demande de réinitialisation du mot de passe associé à votre compte.
+                                Cliquez sur le bouton ci-dessous pour choisir un nouveau mot de passe.
+                            </p>
+
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td align="center" style="padding:10px 0 30px;">
+
+                                        {% comment %} {{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %} {% endcomment %}
+                                        <a href="#"
+                                           style="background:#2563eb;color:#ffffff;text-decoration:none;padding:14px 28px;border-radius:12px;font-size:16px;font-weight:bold;display:inline-block;">
+                                            Réinitialiser le mot de passe
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="color:#94a3b8;font-size:14px;line-height:1.6;margin:0 0 16px;">
+                                Si le bouton ne fonctionne pas, copiez et collez ce lien dans votre navigateur :
+                            </p>
+
+                            <p style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:16px;word-break:break-all;font-size:13px;color:#60a5fa;line-height:1.5;margin:0 0 24px;">
+                               je n'existe pas encore
+                                {% comment %} {{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %} {% endcomment %}
+                            </p>
+
+                            <p style="color:#94a3b8;font-size:14px;line-height:1.7;margin:0 0 24px;">
+                                Ce lien expirera automatiquement pour des raisons de sécurité.
+                            </p>
+
+                            <p style="color:#94a3b8;font-size:14px;line-height:1.7;margin:0;">
+                                Si vous n'avez pas demandé cette réinitialisation, vous pouvez ignorer cet email en toute sécurité.
+                            </p>
+
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center" style="padding:24px 30px;background:#0f172a;border-top:1px solid #1e293b;">
+
+                            <p style="margin:0;color:#64748b;font-size:12px;line-height:1.6;">
+                                © 2026 SAHIT.APP — Tous droits réservés.<br>
+                                Cet email a été envoyé automatiquement, merci de ne pas y répondre.
+                            </p>
+
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>
