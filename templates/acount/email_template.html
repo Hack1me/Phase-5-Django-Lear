@@ -59,7 +59,7 @@
 
                             <p style="background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:16px;word-break:break-all;font-size:13px;color:#60a5fa;line-height:1.5;margin:0 0 24px;">
                                je n'existe pas encore
-                                {{ protocol }}://{{ domain }}{% url 'password_reset_confirm' token=token uid=uid %}
+                                {{ protocol }}{{ domain }}{% url 'password_reset_confirm' token=token uid=uid %}
                             </p>
 
                             <p style="color:#94a3b8;font-size:14px;line-height:1.7;margin:0 0 24px;">
@@ -78,7 +78,7 @@
                         <td align="center" style="padding:24px 30px;background:#0f172a;border-top:1px solid #1e293b;">
 
                             <p style="margin:0;color:#64748b;font-size:12px;line-height:1.6;">
-                                © 2026 SAHIT.APP — Tous droits réservés.<br>
+                                © 2026 LENOX DEV — Tous droits réservés.<br>
                                 Cet email a été envoyé automatiquement, merci de ne pas y répondre.
                             </p>
 

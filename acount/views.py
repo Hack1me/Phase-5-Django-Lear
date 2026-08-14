@@ -1,16 +1,18 @@
+import codecs
+
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.tokens import default_token_generator
 from django.core.exceptions import ValidationError
 from django.core.mail import EmailMessage
 from django.core.validators import validate_email
 from django.db.models import Q
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_bytes, force_str
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from LENOXDEV import settings
 
@@ -149,6 +151,7 @@ def password_reset(request):
     else:
         return render(request, 'acount/password_reset_form.html')
 
+#password reset done view
 def password_reset_done(request):
     return render(request, 'acount/password_reset_done.html')
 
@@ -158,12 +161,28 @@ def password_reset_confirm(request, token, uid):
         confirm_password = request.POST.get("new_password2")
         messages = []
         print(f"Received token: {token}, uid: {uid}")  # Debugging line
+        
+        try:
+            user_id = urlsafe_base64_decode(uid)
+            decode_uid = codecs.decode(user_id, "utf-8")
+            user = User.objects.get(pk=decode_uid)
+        except (User.DoesNotExist, ValueError, TypeError, OverflowError):
+            messages.append("Vous n'avez pas le droit de modifier les informations cet utilisateur")
+            return render(request, 'acount/password_reset_confirm.html', {'messages': messages})
+        
+        check_token = default_token_generator.check_token(user, token)
+        if not check_token:
+            messages.append("Vous n'avez pas le droit de modifier les informations cet utilisateur")
+            return render(request, 'acount/password_reset_confirm.html', {'messages': messages})
+           
         if password != confirm_password:
             messages.append("Les mots de passe ne correspondent pas.")
             return render(request, 'acount/password_reset_confirm.html', {'messages': messages})
 
         try:
             validate_password(password)
+            user.set_password(password)
+            user.save()
         except ValidationError as e:
             messages.extend(e.messages)
             return render(request, 'acount/password_reset_confirm.html', {'messages': messages})
