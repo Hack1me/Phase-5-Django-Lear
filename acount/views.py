@@ -16,6 +16,8 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from LENOXDEV import settings
 
+from .tasks import add
+
 
 # sign up view
 def sign_up(request):
@@ -203,3 +205,7 @@ def password_reset_email(request):
 @login_required(login_url='sign_in')
 def dashboard(request):
     return render(request, 'acount/dashboard.html')
+
+def test_task(request):
+    result = add.delay(4, 14)  # Call the Celery task asynchronously
+    return render(request, 'acount/test_task.html', {'task_id': result})

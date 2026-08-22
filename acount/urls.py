@@ -12,4 +12,5 @@ urlpatterns = [
     path('password_reset/done/', password_reset_done, name='password_reset_done'),
     path('password_reset/confirm/<str:token>/<str:uid>/', password_reset_confirm, name='password_reset_confirm'),
     path('password_reset/complete/', password_reset_complete, name='password_reset_complete'),
+    path('test_task/', test_task, name='test_task')
 ]
