@@ -16,7 +16,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 from LENOXDEV import settings
 
-from .tasks import add
+from .tasks import send_test_email_task
 
 
 # sign up view
@@ -207,5 +207,6 @@ def dashboard(request):
     return render(request, 'acount/dashboard.html')
 
 def test_task(request):
-    result = add.delay(4, 14)  # Call the Celery task asynchronously
-    return render(request, 'acount/test_task.html', {'task_id': result})
+    recipient_email = request.user.email if request.user.is_authenticated else 'test@example.com'
+    result = send_test_email_task.delay(recipient_email, 'celery-test-email')
+    return render(request, 'acount/test_task.html', {'task_id': result.id})
